@@ -9,15 +9,21 @@ const router = require('./router')
 
 const app = express()
 const server = http.createServer(app)
-// this creates an instance of the socket.io server we can use...
 const io = socketio(server) // original
-// const io = socketio(server, corsOptions) // with additional cors options
 
 
 app.use(router)
 app.use(cors())
 
 
+// all socket stuff goes in here
+io.on('connection', (socket) =>{
+    console.log("We have a new connection!!!");
+
+    socket.on('join', ({ name, room }, callback) =>{
+        console.log(socket.id, name, room);
+    })
+})
 
 
 
